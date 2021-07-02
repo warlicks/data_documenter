@@ -32,8 +32,15 @@ class DataDocumenter():
         pass
 
     def summary_statistics(self):
-        numeric_describe = self.data_frame.describe()
-        missing_counts = self.data_frame.isna().sum()
+        numeric_describe = self.data_frame.describe().transpose()
+        missing_counts = self.data_frame.isna().sum().rename('Missing Values')
+        self.summary_stats = (pd.merge(numeric_describe,
+                                       missing_counts,
+                                       left_index=True,
+                                       right_index=True)
+                              .reset_index()
+                              .rename(columns={'index': 'variable_name'})
+                              )
 
     def generate_dictionary():
         pass
